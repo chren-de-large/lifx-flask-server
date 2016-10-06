@@ -12,22 +12,19 @@ HEADERS = {
 def main():
     return ""
 
-@app.route("/start", methods=["POST"])
+@app.route("/travis", methods=["POST"])
 def passed():
-    if request.method == "POST":
+    success = json_dict['status_message']
+    json_dict = request.get_json()
+    if success == "Pending":
         data = {
-            "power": "on",
-            "color": "yellow saturation:1",
+           "power": "on",
+            "color": "yellow",
             "brightness": 1,
         }
         response = requests.post('https://api.lifx.com/v1/lights/all/state', data=data, headers=HEADERS)
-    return success
-
-@app.route("/travis", methods=["POST"])
-def passed():
-    if request.method == "POST":
-        json_dict = request.get_json()
-        success = json_dict['status_message']
+        return success
+    else:
         if success == "Passed" or success == "Fixed":
             data = {
                 "period": 0.5,
@@ -43,6 +40,5 @@ def passed():
             }
             response = requests.post('https://api.lifx.com/v1/lights/all/effects/pulse', data=data, headers=HEADERS)
     return success
-
 if __name__ == "__main__":
     app.run(host='0.0.0.0')
