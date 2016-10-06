@@ -16,7 +16,7 @@ def passed():
     if request.method == "POST":
         json_dict = request.get_json()
         success = json_dict['status_message']
-        if success == "Passed":
+        if success == "Passed" or success == "Fixed":
             data = {
                 "period": 0.5,
                 "cycles": 4,
