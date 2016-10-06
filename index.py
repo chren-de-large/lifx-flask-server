@@ -12,6 +12,17 @@ HEADERS = {
 def main():
     return ""
 
+@app.route("/start", methods=["POST"])
+def passed():
+    if request.method == "POST":
+        data = {
+            "power": "on",
+            "color": "yellow saturation:1",
+            "brightness": 1,
+        }
+        response = requests.post('https://api.lifx.com/v1/lights/all/state', data=data, headers=HEADERS)
+    return success
+
 @app.route("/travis", methods=["POST"])
 def passed():
     if request.method == "POST":
