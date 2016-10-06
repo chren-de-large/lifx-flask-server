@@ -1,8 +1,9 @@
 from flask import Flask
 import requests
+from token import TOKEN
 
 app = Flask(__name__)
-TOKEN = "your_token"
+
 HEADERS = {
     "Authorization": "Bearer %s" % TOKEN,
 }
