@@ -14,8 +14,8 @@ def main():
 
 @app.route("/travis", methods=["POST"])
 def passed():
-    success = json_dict['status_message']
     json_dict = request.get_json()
+    success = json_dict['status_message']
     if success == "Pending":
         data = {
            "power": "on",
@@ -28,14 +28,14 @@ def passed():
         if success == "Passed" or success == "Fixed":
             data = {
                 "period": 0.5,
-                "cycles": 4,
+                "cycles": 6,
                 "color": "green",
             }
             response = requests.post('https://api.lifx.com/v1/lights/all/effects/pulse', data=data, headers=HEADERS)
         else:
             data = {
                 "period": 0.1,
-                "cycles": 10,
+                "cycles": 12,
                 "color": "red",
             }
             response = requests.post('https://api.lifx.com/v1/lights/all/effects/pulse', data=data, headers=HEADERS)
