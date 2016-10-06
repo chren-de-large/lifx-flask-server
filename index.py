@@ -57,4 +57,4 @@ def passed():
             response = requests.post('https://api.lifx.com/v1/lights/all/effects/pulse', data=data, headers=HEADERS)
     return success
 if __name__ == "__main__":
-    app.run()
+    app.run(host='0.0.0.0')
