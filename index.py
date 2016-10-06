@@ -1,6 +1,6 @@
 from flask import Flask
 import requests
-from token import TOKEN
+from bearer import TOKEN
 
 app = Flask(__name__)
 
