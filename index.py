@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 import requests, json
 from bearer import TOKEN
 
@@ -26,8 +26,8 @@ def main():
 
 @app.route("/travis", methods=["POST"])
 def passed():
-    payload = request.args.get("payload")
-    success = payload.json()['status_message']
+    payload = json.loads(request.form['payload'])
+    success = payload['status_message']
     if success == "Pending":
         getState()
         data = {
