@@ -8,15 +8,16 @@ HEADERS = {
     "Authorization": "Bearer %s" % TOKEN,
 }
 
+API_URL = 'https://api.lifx.com/v1/lights/all'
 color = 'white'
 powerState = 'off'
 
 def getState():
-    response = requests.get('https://api.lifx.com/v1/lights/all', data={}, headers=HEADERS)
+    response = requests.get(API_URL, data={}, headers=HEADERS)
     hue = response.json()[0]['color']['hue']
     saturation = response.json()[0]['color']['saturation']
     kelvin = response.json()[0]['color']['kelvin']
-    color_string = "hue:"+str(hue)+" saturation:"+str(saturation)+" kelvin:"+str(kelvin)
+    color_string = "hue:" + str(hue) + " saturation:" + str(saturation) + " kelvin:" + str(kelvin)
     powerState = response.json()[0]['power']
 
 @app.route("/")
@@ -35,10 +36,10 @@ def passed():
             "color": "yellow",
             "brightness": 1,
         }
-        response = requests.post('https://api.lifx.com/v1/lights/all/state', data=data, headers=HEADERS)
+        response = requests.post(API_URL + '/state', data = data, headers = HEADERS)
         return success
     else:
-        requests.post('https://api.lifx.com/v1/lights/all/effects/pulse', data={"color":color}, headers=HEADERS)
+        requests.post(API_URL + '/effects/pulse', data = {"color":color}, headers = HEADERS)
         if success == "Passed" or success == "Fixed":
             data = {
                 "power": "on",
@@ -46,7 +47,7 @@ def passed():
                 "cycles": 6,
                 "color": "green",
             }
-            response = requests.post('https://api.lifx.com/v1/lights/all/effects/pulse', data=data, headers=HEADERS)
+            response = requests.post(API_URL + '/effects/pulse', data = data, headers = HEADERS)
         else:
             data = {
                 "power": "on",
@@ -54,7 +55,7 @@ def passed():
                 "cycles": 12,
                 "color": "red",
             }
-            response = requests.post('https://api.lifx.com/v1/lights/all/effects/pulse', data=data, headers=HEADERS)
+            response = requests.post(API_URL + '/effects/pulse', data = data, headers = HEADERS)
     return success
 if __name__ == "__main__":
     app.run(host='0.0.0.0')
